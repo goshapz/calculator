@@ -2,7 +2,6 @@ import math
 import sys
 
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QWidget
 
 
 class Ui_MYcalc(object):
@@ -117,9 +116,9 @@ class Ui_MYcalc(object):
         self.statusbar = QtWidgets.QStatusBar(MYcalc)
         self.statusbar.setObjectName("statusbar")
         MYcalc.setStatusBar(self.statusbar)
-
         self.retranslateUi(MYcalc)
         QtCore.QMetaObject.connectSlotsByName(MYcalc)
+
 
     def retranslateUi(self, MYcalc):
         _translate = QtCore.QCoreApplication.translate
@@ -150,6 +149,7 @@ class Ui_MYcalc(object):
         self.label.setText(_translate("MYcalc", ""))
         self.label_2.setText(_translate("MYcalc", ""))
 
+
 class Window(QtWidgets.QMainWindow):
     def __init__(self):
         super(Window, self).__init__()
@@ -175,10 +175,13 @@ class Window(QtWidgets.QMainWindow):
         self.ui.minus_button.clicked.connect(self.NumMinus)
         self.ui.mult_button.clicked.connect(self.NumMult)
         self.ui.div_button.clicked.connect(self.NumDiv)
-        self.ui.dot_button.clicked.connect(lambda : self.Dot(float(self.ui.label_2.text())))
+        self.ui.dot_button.clicked.connect(lambda : self.Dot((self.ui.label_2.text())))
         self.ui.log_button.clicked.connect(self.Log)
         self.ui.square_button.clicked.connect(self.Step)
+
+
     def Dot(self,num):
+        r = 0
         v = str(num)
         l = len(v)
         if len(v) >= 2:
@@ -188,12 +191,14 @@ class Window(QtWidgets.QMainWindow):
                 r = v[:l - 1]
         else:
             r = v[:l - 1]
-        self.ui.label_2.setText(r)
+        self.ui.label_2.setText(str(r))
+
 
     def NumRoot(self):
         n = math.sqrt(int(self.ui.label_2.text()))
         self.ui.label.setText(str(n))
         self.ui.label_2.clear()
+
 
     def NumBut(self,num):
         v = str(num)
@@ -210,9 +215,11 @@ class Window(QtWidgets.QMainWindow):
         else:
             self.ui.label.clear()
 
+
     def NumDel(self,num):
         v = str(num)
         l = len(v)
+        r = 0
         if len(v) >= 2:
             if v.endswith('.'):
                 v = v[0:len(v) - 2]
@@ -221,6 +228,7 @@ class Window(QtWidgets.QMainWindow):
         else:
             r = v[:l - 1]
         self.ui.label_2.setText(r)
+
 
     def NumPlus(self):
         if len(self.ui.label.text()) == 0:
@@ -241,6 +249,7 @@ class Window(QtWidgets.QMainWindow):
             self.ui.label.setText(str(sum))
             self.ui.label_2.clear()
 
+
     def NumMult(self):
         if len(self.ui.label.text()) == 0:
             self.ui.label.setText(self.ui.label_2.text())
@@ -249,6 +258,7 @@ class Window(QtWidgets.QMainWindow):
             sum = float(self.ui.label.text()) * float(self.ui.label_2.text())
             self.ui.label.setText(str(sum))
             self.ui.label_2.clear()
+
 
     def NumDiv(self):
         if len(self.ui.label.text()) == 0:
@@ -259,6 +269,7 @@ class Window(QtWidgets.QMainWindow):
             self.ui.label.setText(str(sum))
             self.ui.label_2.clear()
 
+
     def Step(self):
         if len(self.ui.label.text()) == 0:
             self.ui.label.setText(self.ui.label_2.text())
@@ -268,6 +279,7 @@ class Window(QtWidgets.QMainWindow):
             self.ui.label.setText(str(sum))
             self.ui.label_2.clear()
 
+
     def Log(self):
         if len(self.ui.label.text()) == 0:
             self.ui.label.setText(self.ui.label_2.text())
@@ -276,6 +288,7 @@ class Window(QtWidgets.QMainWindow):
             sum = math.log(float(self.ui.label.text()), float(self.ui.label_2.text()))
             self.ui.label.setText(str(sum))
             self.ui.label_2.clear()
+
 
 app = QtWidgets.QApplication([])
 win = Window()
